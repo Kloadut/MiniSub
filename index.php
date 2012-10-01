@@ -1,4 +1,33 @@
-﻿<!DOCTYPE HTML>
+﻿<?php
+
+///////////////////////
+// MiniSub HTTP Auth //
+///////////////////////
+
+// Set your server name here
+$subsonicServerName = 'http://subsonic.example.org';
+
+function strToHex($string)
+{
+    $hex='';
+    for ($i=0; $i < strlen($string); $i++)
+    {
+        $hex .= dechex(ord($string[$i]));
+    }
+    return $hex;
+}
+
+if (!isset($_COOKIE['username']))
+   setcookie('username', $_SERVER['PHP_AUTH_USER'], time()+3600);
+
+if (!isset($_COOKIE['passwordenc']))
+   setcookie('passwordenc', 'enc:'.strToHex($_SERVER['PHP_AUTH_PW']), time()+3600);
+
+if (!isset($_COOKIE['Server']))
+   setcookie('Server', $subsonicServerName, time()+3600);
+
+?>
+<!DOCTYPE HTML>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
